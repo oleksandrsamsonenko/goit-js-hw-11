@@ -10,6 +10,7 @@ const searchForm = document.querySelector(`#search-form`);
 const galleryEl = document.querySelector(`.gallery`);
 const loadMore = document.querySelector(`.load-more`);
 const searchQuery = document.querySelector(`[name="searchQuery"]`);
+let searchValue = '';
 let pageCounter = 1;
 let pictureCounter = 0;
 let gallery = new SimpleLightbox('.gallery a', {
