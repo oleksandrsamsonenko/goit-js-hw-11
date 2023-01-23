@@ -30,9 +30,11 @@ async function getPictures() {
         },
       }
     );
-    if ((response.data.hits.length === 0) & (pageCounter === 1)) {
+      if ((response.data.hits.length === 0) & (pageCounter === 1)) {
+        loadMore.setAttribute(`hidden`, ``);
       throw new Error(
         `Sorry, there are no images matching your search query. Please try again.`
+        
       );
     }
     if ((pictureCounter === response.data.totalHits) & (pageCounter !== 1)) {
