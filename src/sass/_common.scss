@@ -6,6 +6,7 @@
 }
 form {
   margin: auto;
+  z-index: 10000;
 }
 button {
   background-color: rgb(5, 177, 245);
@@ -36,15 +37,25 @@ button:focus {
 .container {
   display: flex;
   justify-content: center;
+  padding: 7px;
+  border-radius: 7px;
 }
+
+.top {
+  position: sticky;
+  top: 10px;
+  z-index: 10000;
+}
+
 .gallery {
   display: grid;
-  margin-top: 25px;
+  margin-top: 35px;
   margin-bottom: 55px;
-  max-width: 1140px;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  max-width: 1440px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-auto-rows: 240px;
-  grid-gap: 55px;
+  grid-row-gap: 55px;
+  grid-column-gap: 40px;
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
