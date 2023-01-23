@@ -23,21 +23,22 @@ loadMore.setAttribute(`hidden`, ``);
 async function getPictures() {
   try {
     const response = await axios.get(
-      `https://pixabay.com/api/?key=${apiKey}&q=${searchQuery.value}&page=${pageCounter}&orientation=horizontal&safesearch=true`,
+      `https://pixabay.com/api/?key=${apiKey}&q=${searchValue}&page=${pageCounter}&orientation=horizontal&safesearch=true`,
       {
         params: {
           per_page: 40,
         },
       }
     );
-      if ((response.data.hits.length === 0) & (pageCounter === 1)) {
-        loadMore.setAttribute(`hidden`, ``);
+    // console.log(searchValue);
+    if ((response.data.hits.length === 0) & (pageCounter === 1)) {
+      loadMore.setAttribute(`hidden`, ``);
       throw new Error(
         `Sorry, there are no images matching your search query. Please try again.`
-        
       );
     }
-    if ((pictureCounter === response.data.totalHits) & (pageCounter !== 1)) {
+
+    if (pictureCounter === response.data.totalHits) {
       loadMore.setAttribute(`hidden`, ``);
       throw new Error(
         `We're sorry, but you've reached the end of search results.`
@@ -46,9 +47,10 @@ async function getPictures() {
     if ((response.data.totalHits !== 0) & (pageCounter === 1)) {
       Notify.success(`Hooray! We found ${response.data.totalHits} images.`);
     }
-    pageCounter += 1;
+
     response.data.hits.forEach(element => {
       pictureCounter += 1;
+
       galleryEl.insertAdjacentHTML(
         `beforeend`,
         `<div class="photo-card">
@@ -65,6 +67,17 @@ async function getPictures() {
 
     gallery.refresh();
     loadMore.removeAttribute(`hidden`, ``);
+
+    if ((pictureCounter === response.data.totalHits) & (pageCounter !== 1)) {
+      loadMore.setAttribute(`hidden`, ``);
+      throw new Error(
+        `We're sorry, but you've reached the end of search results.`
+      );
+    }
+    if (pictureCounter === response.data.totalHits) {
+      loadMore.setAttribute(`hidden`, ``);
+    }
+    pageCounter += 1;
   } catch (error) {
     Notify.warning(error.message);
   }
@@ -75,9 +88,11 @@ searchForm.addEventListener(`submit`, event => {
   galleryEl.innerHTML = '';
   pageCounter = 1;
   pictureCounter = 0;
+  searchValue = searchQuery.value;
   getPictures(URL);
 });
 
 loadMore.addEventListener(`click`, () => {
   getPictures(URL);
+  //   console.log(`-->`, searchValue);
 });
