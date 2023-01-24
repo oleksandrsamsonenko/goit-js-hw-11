@@ -24,14 +24,22 @@ loadMore.setAttribute(`hidden`, ``);
 async function getPictures() {
   try {
     const response = await axios.get(
-      `https://pixabay.com/api/?key=${apiKey}&q=${searchValue}&page=${pageCounter}&orientation=horizontal&safesearch=true`,
+      `https://pixabay.com/api/?key=${apiKey}&q=${searchValue.trim()}&page=${pageCounter}&orientation=horizontal&safesearch=true`,
       {
         params: {
           per_page: 40,
         },
       }
     );
-    // console.log(searchValue);
+    // console.log(`-->>${searchValue.trim()}<<--`);
+
+    if (searchValue.trim().length === 0) {
+      loadMore.setAttribute(`hidden`, ``);
+      throw new Error(
+        `Sorry, your query is empty. Please enter what you want to see.`
+      );
+    }
+
     if ((response.data.hits.length === 0) & (pageCounter === 1)) {
       loadMore.setAttribute(`hidden`, ``);
       throw new Error(
@@ -95,5 +103,4 @@ searchForm.addEventListener(`submit`, event => {
 
 loadMore.addEventListener(`click`, () => {
   getPictures(URL);
-  //   console.log(`-->`, searchValue);
 });
