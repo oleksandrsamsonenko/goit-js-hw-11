@@ -36,7 +36,7 @@ async function getPictures() {
     if (searchValue.trim().length === 0) {
       loadMore.setAttribute(`hidden`, ``);
       throw new Error(
-        `Sorry, your query is empty. Please enter what you want to see.`
+        `Sorry, your request is empty. Please enter what you want to see.`
       );
     }
 
